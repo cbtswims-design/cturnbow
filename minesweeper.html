@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />   
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+
+  <nav class="navbar navbar-expand-lg navbar-light" id="mainNav">
+            <div class="container px-4 px-lg-5">
+                <a class="navbar-brand nav-link" href="index.html">Home</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="index.html">Home</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="about.html">Resume</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="minesweeper.html">Game</a></li>
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="scratch.html">Scratch</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>  
+ <link href="css/mystyles.css" rel="stylesheet" />
+  
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Minesweeper</title>
+<style>
+  :root{
+    --bg:#1b1f24;
+    --panel:#242a32;
+    --grid:#2c333d;
+    --cell:#3a4351;
+    --cellHover:#465267;
+    --cellRevealed:#21262d;
+    --accent:#70e1ff;
+    --danger:#ff6b6b;
+    --ok:#5fe39d;
+    --text:#e6edf3;
+    --muted:#9aa7b2;
+    --flag:#ffcf56;
+    --qmark:#90a4ae;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;background:linear-gradient(180deg,#12161b 0%, #1b1f24 100%);color:var(--text);font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif}
+  .app{
+    max-width:900px;margin:24px auto;padding:16px;
+  }
+  .header{
+    display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+    background:var(--panel);border:1px solid #2b313a;border-radius:12px;padding:12px 16px;
+    box-shadow:0 10px 30px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.03);
+  }
+  .brand{display:flex;gap:10px;align-items:center}
+  .brand .logo{
+    width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,#70e1ff,#5fe39d);
+    box-shadow:0 6px 18px rgba(96,226,190,.35);
+    display:grid;place-items:center;color:#0b1220;font-weight:700;
+  }
+  .brand h1{margin:0;font-size:18px;letter-spacing:.2px}
+  .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+  select,button{
+    background:var(--grid);color:var(--text);border:1px solid #38414d;border-radius:10px;
+    padding:8px 12px;font-weight:600;cursor:pointer;transition:.15s ease;outline:none;
+  }
+  select:hover,button:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.25)}
+  button.primary{background:linear-gradient(135deg,#70e1ff,#5fe39d);color:#0b1220;border:none}
+  .stats{
+    display:flex;gap:16px;align-items:center
+  }
+  .stat{
+    background:var(--grid);border:1px solid #38414d;border-radius:10px;padding:8px 12px;
+    display:flex;gap:8px;align-items:center;font-variant-numeric:tabular-nums;
+  }
+  .stat .label{color:var(--muted);font-weight:600}
+  .stat .value{font-weight:800}
+  .smiley{
+    width:40px;height:40px;border-radius:10px;display:grid;place-items:center;
+    background:var(--grid);border:1px solid #38414d;font-size:20px;cursor:pointer;transition:.12s ease;
+  }
+  .smiley:hover{transform:translateY(-1px)}
+  .boardWrap{margin-top:16px;background:var(--panel);border:1px solid #2b313a;border-radius:12px;padding:12px}
+  .board{
+    display:grid;gap:4px;background:var(--grid);padding:8px;border-radius:10px;border:1px solid #38414d;
+    user-select:none;touch-action:none;
+  }
+  .cell{
+    width:34px;height:34px;border-radius:6px;background:var(--cell);display:grid;place-items:center;
+    font-weight:800;color:var(--text);cursor:pointer;transition:.08s ease;position:relative;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.04), 0 2px 6px rgba(0,0,0,.25);
+  }
+  .cell:hover{background:var(--cellHover)}
+  .cell.revealed{
+    background:var(--cellRevealed);cursor:default;box-shadow:inset 0 1px 0 rgba(255,255,255,.02);
+  }
+  .cell.mine.revealed{background:linear-gradient(135deg,#41222a,#2a1a1f)}
+  .cell.flag::after{
+    content:"⚑";position:absolute;font-size:18px;color:var(--flag)
+  }
+  .cell.qmark::after{
+    content:"?";position:absolute;font-size:16px;color:var(--qmark);font-weight:900
+  }
+  .n1{color:#70e1ff}.n2{color:#5fe39d}.n3{color:#ffcf56}.n4{color:#ff6b6b}
+  .n5{color:#c792ea}.n6{color:#8bd5ff}.n7{color:#e6edf3}.n8{color:#9aa7b2}
+  .footer{margin-top:10px;color:var(--muted);font-size:13px}
+  .inlineHelp{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .kbd{
+    background:#0f141a;border:1px solid #2b313a;border-radius:6px;padding:2px 6px;font-weight:700;color:#d9e2ec
+  }
+  .toast{
+    position:fixed;left:50%;bottom:20px;transform:translateX(-50%);
+    background:#0f141a;border:1px solid #2b313a;color:#d9e2ec;border-radius:10px;padding:8px 12px;
+    box-shadow:0 10px 30px rgba(0,0,0,.35);display:none
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div class="brand">
+      <div class="logo">⛳</div>
+      <h1>Minesweeper</h1>
+    </div>
+    <div class="controls">
+      <select id="difficulty" title="Difficulty">
+        <option value="9x9x10">Easy — 9×9, 10 mines</option>
+        <option value="16x16x40">Medium — 16×16, 40 mines</option>
+        <option value="30x16x99">Hard — 30×16, 99 mines</option>
+      </select>
+      <button id="newGame" class="primary">New game</button>
+      <button id="flagMode">Flag mode: Off</button>
+    </div>
+    <div class="stats">
+      <div class="smiley" id="smiley" title="Restart">🙂</div>
+      <div class="stat"><span class="label">Mines</span><span class="value" id="mineCount">000</span></div>
+      <div class="stat"><span class="label">Flags</span><span class="value" id="flagCount">000</span></div>
+      <div class="stat"><span class="label">Time</span><span class="value" id="time">000</span></div>
+    </div>
+  </div>
+
+  <div class="boardWrap">
+    <div id="board" class="board" aria-label="Minesweeper board"></div>
+    <div class="footer">
+      <div class="inlineHelp">
+        <span>Left-click: reveal</span>
+        <span>•</span>
+        <span>Right-click: flag / question</span>
+        <span>•</span>
+        <span>Double-click on a number to chord-open neighbors</span>
+        <span>•</span>
+        <span>Mobile: toggle <span class="kbd">Flag mode</span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+(() => {
+  // Game state
+  let rows=16, cols=16, mines=40;
+  let firstClick=true, running=false, timer=0, timerId=null;
+  let grid=[], flags=0, revealed=0;
+  const boardEl = document.getElementById('board');
+  const diffEl  = document.getElementById('difficulty');
+  const mineEl  = document.getElementById('mineCount');
+  const flagEl  = document.getElementById('flagCount');
+  const timeEl  = document.getElementById('time');
+  const smiley  = document.getElementById('smiley');
+  const newBtn  = document.getElementById('newGame');
+  const flagModeBtn = document.getElementById('flagMode');
+  const toastEl = document.getElementById('toast');
+
+  let flagMode=false;
+
+  function parseDifficulty(val){
+    const [c,r,m] = val.split('x').map(Number);
+    return {cols:c, rows:r, mines:m};
+  }
+
+  function pad3(n){return String(n).padStart(3,'0')}
+  function showToast(msg){
+    toastEl.textContent = msg;
+    toastEl.style.display='block';
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(()=>toastEl.style.display='none', 1600);
+  }
+
+  function setDifficulty(val){
+    const d = parseDifficulty(val);
+    cols=d.cols; rows=d.rows; mines=d.mines;
+    init();
+  }
+
+  function init(){
+    stopTimer();
+    firstClick=true; running=true; timer=0; flags=0; revealed=0;
+    grid = Array.from({length:rows},()=>Array.from({length:cols},()=>({
+      mine:false, r:0, revealed:false, flag:0 // flag: 0 none, 1 flag, 2 question
+    })));
+    boardEl.style.gridTemplateColumns = `repeat(${cols}, 34px)`;
+    boardEl.style.gridTemplateRows    = `repeat(${rows}, 34px)`;
+    boardEl.innerHTML='';
+    for(let r=0;r<rows;r++){
+      for(let c=0;c<cols;c++){
+        const cell = document.createElement('div');
+        cell.className = 'cell';
+        cell.dataset.r = r; cell.dataset.c = c;
+        cell.addEventListener('mousedown', onMouseDown);
+        cell.addEventListener('mouseup', onMouseUp);
+        cell.addEventListener('contextmenu', e=>{ e.preventDefault(); toggleFlag(r,c); });
+        cell.addEventListener('dblclick', e=>{ e.preventDefault(); chordOpen(r,c); });
+        boardEl.appendChild(cell);
+      }
+    }
+    mineEl.textContent = pad3(mines);
+    flagEl.textContent = pad3(flags);
+    timeEl.textContent = pad3(timer);
+    smiley.textContent = '🙂';
+  }
+
+  function placeMines(exR, exC){
+    // Exclude first click cell and its neighbors for a friendlier start
+    const exclude = new Set();
+    for(let dr=-1; dr<=1; dr++){
+      for(let dc=-1; dc<=1; dc++){
+        const rr=exR+dr, cc=exC+dc;
+        if(inBounds(rr,cc)) exclude.add(rr+','+cc);
+      }
+    }
+    let placed=0;
+    while(placed < mines){
+      const r = Math.floor(Math.random()*rows);
+      const c = Math.floor(Math.random()*cols);
+      const key = r+','+c;
+      if(exclude.has(key)) continue;
+      const cell = grid[r][c];
+      if(!cell.mine){
+        cell.mine=true;
+        placed++;
+      }
+    }
+    // numbers
+    for(let r=0;r<rows;r++){
+      for(let c=0;c<cols;c++){
+        grid[r][c].r = countNeighbors(r,c, v=>v.mine);
+      }
+    }
+  }
+
+  function inBounds(r,c){ return r>=0 && r<rows && c>=0 && c<cols; }
+  function forNeighbors(r,c,fn){
+    for(let dr=-1;dr<=1;dr++){
+      for(let dc=-1;dc<=1;dc++){
+        if(dr===0 && dc===0) continue;
+        const rr=r+dr, cc=c+dc;
+        if(inBounds(rr,cc)) fn(grid[rr][cc], rr, cc);
+      }
+    }
+  }
+  function countNeighbors(r,c, pred){
+    let n=0;
+    forNeighbors(r,c,(v)=>{ if(pred(v)) n++; });
+    return n;
+  }
+
+  function startTimer(){
+    stopTimer();
+    timerId = setInterval(()=>{
+      if(!running) return;
+      timer++;
+      timeEl.textContent = pad3(Math.min(timer,999));
+      if(timer>=999) stopTimer();
+    }, 1000);
+  }
+  function stopTimer(){
+    if(timerId){ clearInterval(timerId); timerId=null; }
+  }
+
+  function onMouseDown(e){
+    const r = +e.currentTarget.dataset.r;
+    const c = +e.currentTarget.dataset.c;
+    if(!running) return;
+
+    if(e.button===0){ // left
+      smiley.textContent = '😮';
+    }
+  }
+  function onMouseUp(e){
+    const r = +e.currentTarget.dataset.r;
+    const c = +e.currentTarget.dataset.c;
+    if(!running) return;
+
+    if(e.button===0){ // left click
+      if(flagMode) { toggleFlag(r,c); return; }
+      reveal(r,c);
+      smiley.textContent = '🙂';
+    } else if(e.button===2){
+      toggleFlag(r,c);
+    }
+  }
+
+  function toggleFlag(r,c){
+    const cell = grid[r][c];
+    const el = getCellEl(r,c);
+    if(cell.revealed || !running) return;
+
+    if(cell.flag===0){
+      cell.flag=1; flags++;
+      el.classList.add('flag');
+    } else if(cell.flag===1){
+      cell.flag=2; flags--; // question mark doesn't count
+      el.classList.remove('flag'); el.classList.add('qmark');
+    } else {
+      cell.flag=0;
+      el.classList.remove('qmark');
+    }
+    flagEl.textContent = pad3(flags);
+  }
+
+  function getCellEl(r,c){
+    return boardEl.children[r*cols + c];
+  }
+
+  function chordOpen(r,c){
+    const cell = grid[r][c];
+    if(!cell.revealed || cell.r===0 || !running) return;
+    const flagCount = countNeighbors(r,c, v=>v.flag===1);
+    if(flagCount === cell.r){
+      // open all non-flagged neighbors
+      forNeighbors(r,c,(v,rr,cc)=>{
+        if(!v.revealed && v.flag!==1) reveal(rr,cc);
+      });
+    }
+  }
+
+  function reveal(r,c){
+    const cell = grid[r][c];
+    const el = getCellEl(r,c);
+    if(!running || cell.revealed || cell.flag===1) return;
+
+    if(firstClick){
+      placeMines(r,c);
+      firstClick=false;
+      startTimer();
+    }
+
+    cell.revealed=true;
+    el.classList.add('revealed');
+    el.classList.remove('flag','qmark');
+    if(cell.mine){
+      el.innerHTML = '💣';
+      gameOver(false, r, c);
+      return;
+    }
+
+    revealed++;
+    if(cell.r>0){
+      el.textContent = cell.r;
+      el.classList.add('n'+cell.r);
+    } else {
+      el.textContent = '';
+      floodReveal(r,c);
+    }
+
+    checkWin();
+  }
+
+  function floodReveal(sr,sc){
+    const q=[[sr,sc]];
+    const seen = new Set([sr+','+sc]);
+    while(q.length){
+      const [r,c] = q.shift();
+      forNeighbors(r,c,(v,rr,cc)=>{
+        const key = rr+','+cc;
+        if(v.revealed || v.flag===1 || seen.has(key)) return;
+        v.revealed=true;
+        revealed++;
+        const el = getCellEl(rr,cc);
+        el.classList.add('revealed');
+        el.classList.remove('flag','qmark');
+        if(v.mine){
+          // shouldn't happen due to logic, but guard
+          el.innerHTML='💣';
+        } else if(v.r>0){
+          el.textContent=v.r; el.classList.add('n'+v.r);
+        } else {
+          el.textContent='';
+          q.push([rr,cc]);
+          seen.add(key);
+        }
+      });
+    }
+  }
+
+  function revealAllMines(hitR,hitC){
+    for(let r=0;r<rows;r++){
+      for(let c=0;c<cols;c++){
+        const v = grid[r][c];
+        const el = getCellEl(r,c);
+        if(v.mine){
+          el.classList.add('revealed','mine');
+          el.innerHTML = (r===hitR && c===hitC) ? '💥' : '💣';
+        }
+      }
+    }
+  }
+
+  function gameOver(win, hitR=null, hitC=null){
+    running=false;
+    stopTimer();
+    smiley.textContent = win ? '😎' : '💀';
+    if(!win) revealAllMines(hitR,hitC);
+    showToast(win ? 'You win!' : 'Boom! Game over.');
+  }
+
+  function checkWin(){
+    const totalCells = rows*cols;
+    if(revealed === totalCells - mines){
+      // Optional: auto-flag remaining
+      for(let r=0;r<rows;r++){
+        for(let c=0;c<cols;c++){
+          const v=grid[r][c];
+          const el=getCellEl(r,c);
+          if(v.mine && v.flag!==1){
+            v.flag=1; flags++; el.classList.add('flag');
+          }
+        }
+      }
+      flagEl.textContent = pad3(flags);
+      gameOver(true);
+    }
+  }
+
+  // UI bindings
+  diffEl.addEventListener('change', e=> setDifficulty(e.target.value));
+  newBtn.addEventListener('click', ()=> init());
+  smiley.addEventListener('click', ()=> init());
+  flagModeBtn.addEventListener('click', ()=>{
+    flagMode = !flagMode;
+    flagModeBtn.textContent = `Flag mode: ${flagMode ? 'On' : 'Off'}`;
+    showToast(flagMode ? 'Flag mode enabled (mobile friendly).' : 'Flag mode disabled.');
+  });
+
+  // Accessibility: keyboard support (arrow + space/enter to reveal; F to flag)
+  document.addEventListener('keydown', (e)=>{
+    if(!running) return;
+    const focus = document.activeElement;
+    if(!focus || !focus.classList.contains('cell')) return;
+    const r = +focus.dataset.r, c = +focus.dataset.c;
+    if(e.key===' ' || e.key==='Enter'){ reveal(r,c); }
+    else if(e.key.toLowerCase()==='f'){ toggleFlag(r,c); }
+    else if(e.key==='ArrowUp'){ moveFocus(r-1,c); }
+    else if(e.key==='ArrowDown'){ moveFocus(r+1,c); }
+    else if(e.key==='ArrowLeft'){ moveFocus(r,c-1); }
+    else if(e.key==='ArrowRight'){ moveFocus(r,c+1); }
+    else if(e.key.toLowerCase()==='d'){ chordOpen(r,c); }
+  });
+  function moveFocus(r,c){
+    if(!inBounds(r,c)) return;
+    const el = getCellEl(r,c);
+    el.focus();
+  }
+
+  // Make cells focusable
+  const observer = new MutationObserver(()=>{
+    for(const el of boardEl.children){
+      el.setAttribute('tabindex','0');
+    }
+  });
+  observer.observe(boardEl,{childList:true});
+
+  // Initialize
+  setDifficulty(diffEl.value);
+})();
+</script>
+</body>
+</html>
