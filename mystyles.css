@@ -1,0 +1,134 @@
+body{
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    color: lightskyblue;
+    background-color: grey;
+    font-weight: lighter;
+    margin-left: 50px;
+}
+h1,h2,h3,h4,h5,h6,p{
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    color: goldenrod;
+    font-weight: bold;
+}
+a{
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+.CSFont{
+    font-family: 'Comic Sans MS', cursive, sans-serif !important; 
+}
+
+
+.navbar .nav-link {
+  color: white !important;
+}
+
+
+.navbar-nav {
+  flex-direction: row !important; /* force horizontal */
+  color: white;
+}
+.nav-item {
+  margin-left: 15px; /* spacing */
+  color: white;
+}
+.navbar-brand {
+  color: white !important;
+}
+
+
+.header {
+  text-align: center;
+  background-color: grey;
+  padding: 10px;
+}
+
+.footer {
+  text-align: center;
+  background-color: grey;
+  padding: 10px;
+}
+
+.span {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.li{
+    font-size: 20px;
+    font-weight: lighter;
+}
+
+/* Center the page and improve readability */
+body {
+    max-width: 1100px;
+    margin: auto;
+    line-height: 1.6;
+}
+
+/* Header improvements */
+.header {
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+/* Image styling */
+.hero-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+/* Opinion section container */
+.content-box {
+    background-color: #444;
+    padding: 25px;
+    border-radius: 15px;
+    margin: 30px auto;
+    width: 90%;
+}
+
+/* Lists */
+.list-box {
+    background-color: #555;
+    padding: 15px 30px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+/* Improve list spacing */
+ol li {
+    margin-bottom: 6px;
+}
+
+/* Section titles */
+.span {
+    display: block;
+    text-align: center;
+    margin-bottom: 20px;
+    color: gold;
+}
+
+/* Video centering */
+.video-box iframe {
+    max-width: 100%;
+    border-radius: 12px;
+}
+
+/* Tableau container */
+.tableau-box {
+    background-color: #444;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+}
+
+/* Footer */
+.footer a {
+    color: gold;
+    text-decoration: none;
+    font-weight: bold;
+}
+.footer a:hover {
+    text-decoration: underline;
+}
